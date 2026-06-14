@@ -73,8 +73,13 @@ Install it on your phone. This is the display server that renders the desktop.
 Open Termux and run:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/orailnoor/DroidDesk/main/termux-linux-setup.sh -o setup.sh
+curl -sL https://raw.githubusercontent.com/hieultph/DroidDesk/main/termux-linux-setup.sh -o setup.sh
 bash setup.sh
+```
+
+```bash
+curl -sL https://raw.githubusercontent.com/hieultph/DroidDesk/main/termux-setup-minimal.sh -o min-setup.sh
+bash min-setup.sh
 ```
 
 The script will:
