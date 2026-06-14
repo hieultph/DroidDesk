@@ -99,6 +99,7 @@ proot-distro login ubuntu -- bash -c "
 #  BƯỚC 7 — GPU env config
 # ============================================================
 log "Tạo file cấu hình GPU..."
+mkdir -p ~/.config
 cat > ~/.config/linux-gpu.sh << 'EOF'
 export MESA_NO_ERROR=1
 export MESA_GL_VERSION_OVERRIDE=4.6
