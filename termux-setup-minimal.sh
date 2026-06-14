@@ -50,11 +50,24 @@ pkg install -y \
 # ============================================================
 log "Cài GPU driver..."
 GPU_VENDOR=$(getprop ro.hardware.egl 2>/dev/null || echo "")
-pkg install -y mesa-zink vulkan-loader-android
+
+log "Cài mesa-zink..."
+pkg install -y mesa-zink
+
+# vulkan-loader-android và vulkan-loader-generic xung đột nhau
+# Chỉ cài một cái — ưu tiên android loader, fallback sang generic nếu lỗi
+if pkg install -y vulkan-loader-android 2>/dev/null; then
+    ok "Cài vulkan-loader-android thành công"
+else
+    warn "vulkan-loader-android bị conflict, thử vulkan-loader-generic..."
+    pkg install -y vulkan-loader-generic 2>/dev/null || \
+        warn "Không cài được Vulkan loader — GPU acceleration có thể không hoạt động"
+fi
 
 if [[ "$GPU_VENDOR" == *"adreno"* ]]; then
-    pkg install -y mesa-vulkan-icd-freedreno
-    ok "Phát hiện GPU Adreno — cài Turnip driver"
+    pkg install -y mesa-vulkan-icd-freedreno 2>/dev/null && \
+        ok "Phát hiện GPU Adreno — cài Turnip driver" || \
+        warn "Không cài được Turnip driver"
 else
     warn "GPU không phải Adreno — dùng Zink/LLVMpipe fallback"
 fi
